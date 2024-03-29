@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.WeatherApp" parent="Base.Theme.WeatherApp" />
+    <style name="MyAutoCompleteTextViewStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_weight">5</item>
+        <item name="android:completionThreshold">1</item>
+
+    </style>
 </resources>

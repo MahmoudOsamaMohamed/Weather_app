@@ -1,4 +1,4 @@
-package com.example.example
+package com.mahmoud.weatherapp.model.Pojos
 
 import com.google.gson.annotations.SerializedName
 
@@ -24,6 +24,6 @@ data class Results (
   @SerializedName("timezone"          ) var timezone         : String?           = null,
   @SerializedName("modification_date" ) var modificationDate : String?           = null,
   @SerializedName("label_en"          ) var labelEn          : String?           = null,
-  @SerializedName("coordinates"       ) var coordinates      : Coordinates?      = Coordinates()
+  @SerializedName("coordinates"       ) var coordinates      : Coord?      = Coord()
 
 )

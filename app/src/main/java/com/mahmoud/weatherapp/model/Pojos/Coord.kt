@@ -1,11 +1,11 @@
-package com.example.example
+package com.mahmoud.weatherapp.model.Pojos
 
 import com.google.gson.annotations.SerializedName
 
 
 data class Coord (
 
-  @SerializedName("lon" ) var lon : Double? = null,
-  @SerializedName("lat" ) var lat : Double? = null
+  @SerializedName("lat" ) var lat : Double? = null,
+  @SerializedName("lon" ) var lon : Double? = null
 
 )

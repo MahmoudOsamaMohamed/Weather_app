@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mahmoud.weatherapp.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <argument
+            android:name="lon"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="lat"
+            android:defaultValue=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.mahmoud.weatherapp.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="from"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorateFragment"
+        android:name="com.mahmoud.weatherapp.FavorateFragment"
+        android:label="fragment_favorate"
+        tools:layout="@layout/fragment_favorate" >
+        <action
+            android:id="@+id/action_favorateFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_favorateFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_favorateFragment_to_searchFragment2"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sittingFragment"
+        android:name="com.mahmoud.weatherapp.SittingFragment"
+        android:label="fragment_sitting"
+        tools:layout="@layout/fragment_sitting" />
+    <fragment
+        android:id="@+id/myDialogFragment"
+        android:name="com.mahmoud.weatherapp.MyDialogFragment"
+        android:label="MyDialogFragment" />
+</navigation>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">تطبيق الطقس</string>
+    <string name="hello_blank_fragment">مرحباً بالشاشة الفارغة</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="clouds">السحب</string>
+    <string name="vision">الرؤية</string>
+    <string name="pressure">الضغط</string>
+    <string name="rain">الأمطار</string>
+    <string name="winds">الرياح</string>
+    <string name="sunset">غروب الشمس</string>
+    <string name="sunrise">شروق الشمس</string>
+    <string name="ultraviolet">الأشعة فوق البنفسجية</string>
+    <string name="snow">الثلوج</string>
+    <string name="temperature">درجة الحرارة</string>
+    <string name="celecous">°م</string>
+    <string name="fehrenheit">°ف</string>
+    <string name="kelvin">°ك</string>
+    <string name="langauge">اللغة</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="location">الموقع</string>
+    <string name="gps">نظام تحديد المواقع العالمي</string>
+    <string name="map">الخريطة</string>
+    <string name="speed">السرعة</string>
+    <string name="mps">متر/ثانية</string>
+    <string name="mph">ميل/ساعة</string>
+    <string name="from">من</string>
+    <string name="to">to</string>
+    <string name="with_alarm">with alarm</string>
+    <string name="save">save</string>
+
+</resources>

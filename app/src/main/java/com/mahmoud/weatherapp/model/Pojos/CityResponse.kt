@@ -1,11 +1,12 @@
-package com.example.example
+package com.mahmoud.weatherapp.model.Pojos
 
 import com.google.gson.annotations.SerializedName
 
 
 data class CityResponse (
 
-  @SerializedName("total_count" ) var totalCount : Int?               = null,
-  @SerializedName("results"     ) var results    : ArrayList<Results> = arrayListOf()
+
+  @SerializedName("features") val features : List<Features>,
+  @SerializedName("type") val type : String
 
 )

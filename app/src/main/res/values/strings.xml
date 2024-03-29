@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">Weather app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="humidity">humidity</string>
+    <string name="clouds">clouds</string>
+    <string name="vision">vision</string>
+    <string name="pressure">pressure</string>
+    <string name="rain">rain</string>
+    <string name="winds">winds</string>
+    <string name="sunset">sunset</string>
+    <string name="sunrise">sunrise</string>
+    <string name="ultraviolet">UV</string>
+    <string name="snow">snow</string>
+    <string name="temperature">temperature</string>
+    <string name="celecous">°C</string>
+    <string name="fehrenheit">°F</string>
+    <string name="kelvin">°K</string>
+    <string name="langauge">langauge</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="location">location</string>
+    <string name="gps">GPS</string>
+    <string name="map">MAP</string>
+    <string name="speed">speed</string>
+    <string name="mps">meter/second</string>
+    <string name="mph">mile/hour</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="with_alarm">with alarm</string>
+    <string name="without_alarm">without alarm\n</string>
+    <string name="save">save</string>
+
 </resources>
