@@ -7,12 +7,20 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.mahmoud.weatherapp.model.Language
 import com.mahmoud.weatherapp.model.Location
+import com.mahmoud.weatherapp.model.Pojos.CityResponse
+import com.mahmoud.weatherapp.model.Pojos.ForecastResponse
+import com.mahmoud.weatherapp.model.Pojos.LocaleResponse
 import com.mahmoud.weatherapp.model.SettingsPreferences
 import com.mahmoud.weatherapp.model.SpeedUnit
 import com.mahmoud.weatherapp.model.TempUnit
 import com.mahmoud.weatherapp.model.db.CashWeather
 import com.mahmoud.weatherapp.model.db.Favourate
+import com.mahmoud.weatherapp.model.db.ILocalDataSource
 import com.mahmoud.weatherapp.model.db.LocalDataSource
+import com.mahmoud.weatherapp.model.result.CityResult
+import com.mahmoud.weatherapp.model.result.ForecastResult
+import com.mahmoud.weatherapp.model.result.LocaleResult
+import com.mahmoud.weatherapp.remote.IRemoteDataSource
 import com.mahmoud.weatherapp.remote.RemoteDataSource
 import com.plcoding.alarmmanagerguide.AlarmItem
 import kotlinx.coroutines.CoroutineScope
@@ -28,56 +36,58 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
 
-val Context.dataStore by preferencesDataStore(name = "settings")
+interface IReposatory {
+    suspend fun updateSettingsPreferences(speedUnit: SpeedUnit? =null, language: Language? =null,
+                                          tempUnit: TempUnit? =null, location: Location? =null,
+                                          lat: String? =null, lon: String? =null)
 
-class Reposatory(private val localDataSource: LocalDataSource,private val remoteDataSource: RemoteDataSource) {
+    fun readSettingsPreference(): SharedFlow<SettingsPreferences>
+    fun getWeather(lat: String, lon: String, language: String): Flow<ForecastResult<ForecastResponse>>
+    fun getLocale(lat: String, lon: String, limit: String): Flow<LocaleResult<List<LocaleResponse>>>
+    fun getCities(where: String, limit: String): Flow<CityResult<CityResponse>>
+    fun getCashWeather(): Flow<List<CashWeather>>
+    fun getFavourate(): Flow<List<Favourate>>
 
+    suspend fun insertToCash(cashWeather: CashWeather)
 
-    suspend fun updateSettingsPreferences(speedUnit: SpeedUnit?=null,language: Language?=null,
-                                          tempUnit: TempUnit?=null,location: Location?=null,
-                                          lat: String?=null,lon:String?=null) {
-        localDataSource.context.dataStore.edit {
-Log.d("update datastore",it.toString())
-            if(speedUnit!=null){ it[stringPreferencesKey("speedUnit")] = speedUnit.name
-            }
-            if(language!=null) {it[stringPreferencesKey("language")] = language.name
-            }
-            if(tempUnit!=null){ it[stringPreferencesKey("tempUnit")] = tempUnit.name
-            }
-            if(location!=null) {it[stringPreferencesKey("location")] = location.name
-            }
-            if(lat!=null && lon!=null) {it[stringPreferencesKey("lat")] = lat
-                it[stringPreferencesKey("lon")] = lon
-            }
-        }}
-         fun readSettingsPreference(): SharedFlow<SettingsPreferences> {
-            return localDataSource.context.dataStore.data.map {
-                val speedUnit= it[stringPreferencesKey("speedUnit")]?:SpeedUnit.KMPH.name
-                val language= it[stringPreferencesKey("language")]?:Language.EN.name
-                val tempUnit= it[stringPreferencesKey("tempUnit")]?:TempUnit.C.name
-                val location= it[stringPreferencesKey("location")]?:Location.OFF.name
-                val lat= it[stringPreferencesKey("lat")]?:""
-                val lon= it[stringPreferencesKey("lon")]?:""
-                SettingsPreferences(speedUnit,language,tempUnit,location,lat,lon)
+    suspend fun insertToFavourate(favourate: Favourate)
 
-            }.shareIn(scope = CoroutineScope(Dispatchers.IO),started = SharingStarted.Lazily,replay = 1)
+    suspend fun deleteAllCash()
 
-        }
+    suspend fun deleteFromFavourate(favourate: Favourate)
+    fun getAlarm(): Flow<List<AlarmItem>>
+
+    suspend fun insertToAlarm(alarmItem: AlarmItem)
+
+    suspend fun deleteFromAlarm(id: Int)
+}
+
+class Reposatory(private val localDataSource: ILocalDataSource, private val remoteDataSource: IRemoteDataSource ) :
+    IReposatory {
 
 
+    override suspend fun updateSettingsPreferences(speedUnit: SpeedUnit?, language: Language?,
+                                                   tempUnit: TempUnit?, location: Location?,
+                                                   lat: String?, lon:String?
+    ) {
+localDataSource.updateSettingsPreferences(speedUnit,language,tempUnit,location,lat,lon)
+    }
+         override fun readSettingsPreference(): SharedFlow<SettingsPreferences> =localDataSource.readSettingsPreference()
 
 
-    fun getWeather(lat:String,lon:String,language:String) = remoteDataSource.getWeather(lat, lon,language= language)
-    fun getLocale(lat: String,lon: String,limit:String) = remoteDataSource.getLocales(lat,lon,limit)
-    fun getCities(where:String,limit:String) = remoteDataSource.getCities(where,limit)
-    fun getCashWeather() = localDataSource.getAllCash()
-    fun getFavourate() = localDataSource.getAllFavourate()
-    suspend fun insertToCash(cashWeather: CashWeather) = localDataSource.insertToCash(cashWeather)
-    suspend fun insertToFavourate(favourate: Favourate) = localDataSource.insertToFavourate(favourate)
-    suspend fun deleteAllCash() = localDataSource.deleteAllCash()
-    suspend fun deleteFromFavourate(favourate: Favourate) = localDataSource.deleteFromFavourate(favourate)
-    fun getAlarm() = localDataSource.getAllAlarm()
-    suspend fun insertToAlarm(alarmItem: AlarmItem) = localDataSource.insertToAlarm(alarmItem)
-    suspend fun deleteFromAlarm(id: Int) = localDataSource.deleteFromAlarm(id)
+
+
+    override fun getWeather(lat:String, lon:String, language:String) = remoteDataSource.getWeather(lat, lon,language= language)
+    override fun getLocale(lat: String, lon: String, limit:String) = remoteDataSource.getLocales(lat,lon,limit)
+    override fun getCities(where:String, limit:String) = remoteDataSource.getCities(where,limit)
+    override fun getCashWeather() = localDataSource.getAllCash()
+    override fun getFavourate() = localDataSource.getAllFavourate()
+    override suspend fun insertToCash(cashWeather: CashWeather) = localDataSource.insertToCash(cashWeather)
+    override suspend fun insertToFavourate(favourate: Favourate) = localDataSource.insertToFavourate(favourate)
+    override suspend fun deleteAllCash() = localDataSource.deleteAllCash()
+    override suspend fun deleteFromFavourate(favourate: Favourate) = localDataSource.deleteFromFavourate(favourate)
+    override fun getAlarm() = localDataSource.getAllAlarm()
+    override suspend fun insertToAlarm(alarmItem: AlarmItem) = localDataSource.insertToAlarm(alarmItem)
+    override suspend fun deleteFromAlarm(id: Int) = localDataSource.deleteFromAlarm(id)
 
 }

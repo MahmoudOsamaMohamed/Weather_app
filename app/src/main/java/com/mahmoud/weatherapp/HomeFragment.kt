@@ -100,7 +100,7 @@ val dailog = AlaretDailog(requireContext())
         val factory = RemoteViewModelFactory(
             Reposatory(
                 LocalDataSource(requireContext()),
-                RemoteDataSource()
+                RemoteDataSource(),
             )
         )
 

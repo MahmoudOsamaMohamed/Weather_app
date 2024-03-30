@@ -47,7 +47,7 @@ class AlaretDailog(var cont: Context): DialogFragment() {
     var alarmItem: AlarmItem? = null
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val factory = RemoteViewModelFactory(Reposatory(LocalDataSource(requireContext()), RemoteDataSource()))
+        val factory = RemoteViewModelFactory(Reposatory(LocalDataSource(requireContext()), RemoteDataSource(), ))
 
         viewModel = ViewModelProvider(this, factory).get(RemoteViewModel::class.java)
 

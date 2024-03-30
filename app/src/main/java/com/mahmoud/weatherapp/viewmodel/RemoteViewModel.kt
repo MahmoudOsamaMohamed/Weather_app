@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mahmoud.weatherapp.IReposatory
 import com.mahmoud.weatherapp.Reposatory
 import com.mahmoud.weatherapp.model.Language
 import com.mahmoud.weatherapp.model.Location
@@ -36,7 +37,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class RemoteViewModel(private val repo:Reposatory):ViewModel(){
+class RemoteViewModel(private val repo: IReposatory):ViewModel(){
     private val _suggestions = MutableStateFlow<CityResult<CityResponse>>(CityResult.Loading)
     val suggestions: StateFlow<CityResult<CityResponse>> = _suggestions
     private val _settingsPreferences = MutableStateFlow<SettingsPreferences>(SettingsPreferences(SpeedUnit.KMPH.name,Language.EN.name,TempUnit.C.name,Location.OFF.name,"",""))

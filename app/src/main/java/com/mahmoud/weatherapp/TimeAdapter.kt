@@ -41,6 +41,7 @@ class TimeAdapter(var tempUnit:String,val sunrise:Long,val sunset:Long) : ListAd
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.time.text = MainActivity.formatTime(item.dt)
+
         when(tempUnit){
             TempUnit.C.name -> {
                 holder.binding.degree.text = item.temp.toInt().toString()+ " °C"

@@ -8,58 +8,25 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.mahmoud.weatherapp.alaram.AlarmItemDao
 import com.mahmoud.weatherapp.model.Language
 import com.mahmoud.weatherapp.model.Location
-import com.mahmoud.weatherapp.model.Pojos.ForecastResponse
 import com.mahmoud.weatherapp.model.SettingsPreferences
 import com.mahmoud.weatherapp.model.SpeedUnit
 import com.mahmoud.weatherapp.model.TempUnit
 import com.plcoding.alarmmanagerguide.AlarmItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 
-interface ILocalDataSource {
-    suspend fun insertToCash(cashWeather: CashWeather)
-
-    suspend fun deleteAllCash()
-    fun getAllCash(): Flow<List<CashWeather>>
-
-    suspend fun insertToFavourate(favourate: Favourate)
-
-    suspend fun deleteFromFavourate(favourate: Favourate)
-    fun getAllFavourate(): Flow<List<Favourate>>
-
-    suspend fun insertToAlarm(alarmItem: AlarmItem)
-
-    suspend fun deleteFromAlarm(id: Int)
-    fun getAllAlarm(): Flow<List<AlarmItem>>
-    suspend fun updateSettingsPreferences(speedUnit: SpeedUnit?, language: Language?,
-                                          tempUnit: TempUnit?, location: Location?,
-                                          lat: String?, lon:String?
-    )
-    fun readSettingsPreference(): SharedFlow<SettingsPreferences>
-}
-
 val Context.dataStore by preferencesDataStore(name = "settings")
+class LocalDataSourceForTest(val favourateDao: FavourateDao,
+                             val alarmItemDao: AlarmItemDao,
+                             val cashWeatherDao: CashWeatherDao,
+                             val context: Context):ILocalDataSource {
 
-class LocalDataSource(val context: Context) : ILocalDataSource {
-    private val cashWeatherDao: CashWeatherDao by lazy {
-        val database = RoomDB.getDatabase(context)
-        database.cashWeatherDao()
-    }
-    private val favourateDao: FavourateDao by lazy {
-        val database = RoomDB.getDatabase(context)
-        database.favourateDao()
-    }
-    private val alarmItemDao: AlarmItemDao by lazy {
-        val database = RoomDB.getDatabase(context)
-        database.alarmItemDao()
-    }
-     override suspend fun updateSettingsPreferences(speedUnit: SpeedUnit?, language: Language?,
+    override suspend fun updateSettingsPreferences(speedUnit: SpeedUnit?, language: Language?,
                                                    tempUnit: TempUnit?, location: Location?,
                                                    lat: String?, lon:String?
     ) {
@@ -79,10 +46,10 @@ class LocalDataSource(val context: Context) : ILocalDataSource {
         }}
     override fun readSettingsPreference(): SharedFlow<SettingsPreferences> {
         return  context.dataStore.data.map {
-            val speedUnit= it[stringPreferencesKey("speedUnit")]?:SpeedUnit.KMPH.name
-            val language= it[stringPreferencesKey("language")]?:Language.EN.name
-            val tempUnit= it[stringPreferencesKey("tempUnit")]?:TempUnit.C.name
-            val location= it[stringPreferencesKey("location")]?:Location.OFF.name
+            val speedUnit= it[stringPreferencesKey("speedUnit")]?: SpeedUnit.KMPH.name
+            val language= it[stringPreferencesKey("language")]?: Language.EN.name
+            val tempUnit= it[stringPreferencesKey("tempUnit")]?: TempUnit.C.name
+            val location= it[stringPreferencesKey("location")]?: Location.OFF.name
             val lat= it[stringPreferencesKey("lat")]?:""
             val lon= it[stringPreferencesKey("lon")]?:""
             SettingsPreferences(speedUnit,language,tempUnit,location,lat,lon)

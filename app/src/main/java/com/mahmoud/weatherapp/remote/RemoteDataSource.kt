@@ -13,7 +13,13 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RemoteDataSource {
+interface IRemoteDataSource {
+    fun getWeather(lat: String, lon: String, language: String): Flow<ForecastResult<ForecastResponse>>
+    fun getLocales(lat: String, lon: String, limit: String) : Flow<LocaleResult<List<LocaleResponse>>>
+    fun getCities(q: String, limit: String) : Flow<CityResult<CityResponse>>
+}
+
+class RemoteDataSource : IRemoteDataSource {
     val APP_KEY ="8dc12e644f5af0e96002bb8bb3fc6e19"
     object RetrofitClient{
         val OPEN_WEATHER_URL = "https://api.openweathermap.org/"
@@ -30,7 +36,7 @@ class RemoteDataSource {
             .build()
             .create(ApiService::class.java)
     }
-     fun getWeather(lat:String,lon:String,language: String): Flow<ForecastResult<ForecastResponse>> = flow {
+     override fun getWeather(lat:String, lon:String, language: String): Flow<ForecastResult<ForecastResponse>> = flow {
          try {
              emit(ForecastResult.Loading)
              val response = RetrofitClient.apiForOpenWeather.getWeather(lat,lon,APP_KEY, lang = language.toLowerCase())
@@ -41,7 +47,7 @@ class RemoteDataSource {
 
      }
 
-     fun getLocales(lat:String,lon:String,limit:String) : Flow<LocaleResult<List<LocaleResponse>>> = flow {
+     override fun getLocales(lat:String, lon:String, limit:String) : Flow<LocaleResult<List<LocaleResponse>>> = flow {
          try {
              emit(LocaleResult.Loading)
              val response = RetrofitClient.apiForOpenWeather.getLocales(lat,lon,limit,APP_KEY)
@@ -51,7 +57,7 @@ class RemoteDataSource {
          }
      }
 
-     fun getCities(q:String,limit:String) : Flow<CityResult<CityResponse>> = flow {
+     override fun getCities(q:String, limit:String) : Flow<CityResult<CityResponse>> = flow {
          try {
              emit(CityResult.Loading)
              val response = RetrofitClient.apiForPhoton.getCities(q,limit)

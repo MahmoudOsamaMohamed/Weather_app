@@ -83,6 +83,54 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // Dependencies for local unit tests
+    val junitVersion = "4.13.2"
+    testImplementation ("junit:junit:$junitVersion")
+    val hamcrestVersion= "1.3"
+    testImplementation ("org.hamcrest:hamcrest-all:$hamcrestVersion")
+    val archTestingVersion= "2.1.0"
+    testImplementation ("androidx.arch.core:core-testing:$archTestingVersion")
+    val robolectricVersion = "4.5.1"
+    testImplementation ("org.robolectric:robolectric:$robolectricVersion")
+
+    // AndroidX Test - JVM testing
+    val androidXTestCoreVersion = "1.4.0"
+    testImplementation ("androidx.test:core-ktx:$androidXTestCoreVersion")
+    //testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+
+    // AndroidX Test - Instrumented testing
+    val androidXTestExtKotlinRunnerVersion = "1.1.3"
+
+    val espressoVersion = "3.4.0"
+    val androidXTestRulesVersion = "1.2.0"
+    androidTestImplementation ("androidx.test:runner:$androidXTestExtKotlinRunnerVersion")
+    androidTestImplementation ("androidx.test:rules:$androidXTestRulesVersion")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:$espressoVersion")
+
+    //Timber
+    implementation( "com.jakewharton.timber:timber:5.0.1")
+
+    // hamcrest
+    testImplementation ("org.hamcrest:hamcrest:2.2")
+    testImplementation( "org.hamcrest:hamcrest-library:2.2")
+    androidTestImplementation( "org.hamcrest:hamcrest:2.2")
+    androidTestImplementation ("org.hamcrest:hamcrest-library:2.2")
+
+
+    // AndroidX and Robolectric
+    testImplementation ("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
+    testImplementation ("androidx.test:core-ktx:$androidXTestCoreVersion")
+    testImplementation ("org.robolectric:robolectric:4.8")
+
+    // InstantTaskExecutorRule
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.1.0")
+    //kotlinx-coroutines
+    val coroutinesVersion = "1.6.4"
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+
 
 }
 //safe args
