@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#527C9E"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchFragment">
@@ -43,8 +44,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:layout_marginTop="100dp"
+   android:layout_marginTop="100dp"
+        android:visibility="gone"
         android:id="@+id/result_rv"/>
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="discover.json"
+        app:lottie_loop="true"
+        android:id="@+id/descover_anim"/>
 </FrameLayout>

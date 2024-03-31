@@ -30,7 +30,9 @@ import com.plcoding.alarmmanagerguide.AlarmItem
 import com.plcoding.alarmmanagerguide.AndroidAlarmScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class AlaretDailog(var cont: Context): DialogFragment() {
     lateinit var from:TextView
@@ -41,6 +43,8 @@ class AlaretDailog(var cont: Context): DialogFragment() {
     lateinit var save:Button
     lateinit var list:List<Daily>
      var days:Long=0
+    var hour:Int=0
+    var minute:Int=0
     var massage=""
 
     val scheduler = AndroidAlarmScheduler(cont)
@@ -78,13 +82,22 @@ class AlaretDailog(var cont: Context): DialogFragment() {
             .setCalendarConstraints(constraintsBuilder.build()).build()
             datePicker.show(requireActivity().supportFragmentManager,"")
             datePicker.addOnPositiveButtonClickListener {
+
                 val data =datePicker.selection
-//                for(i in list.indices-3){
-//                    if(MainActivity.getDayOfWeek(data!!) == MainActivity.getDayOfWeek(list[i].dt.toLong())){
-                        days = 0.toLong()
-                        massage = list[0].weather[0].description
-//                    }
-//                }
+                if (data != null) {
+                    days = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-data)
+                    Log.d("lllllllll",MainActivity.getDayOfWeek(data/1000).toString()+" "+data/1000)
+                }
+                for(i in list.indices){
+                    Log.d("lll",MainActivity.getDayOfWeek(list[i].dt.toLong())+" "+list[i].dt.toLong())
+                    if (data != null) {
+                        if(data/1000<list[i].dt.toLong()){
+                            //days = i.toLong()
+                            massage = list[i].weather[0].description
+                            break
+                        }
+                    }
+                }
                 val timePicker = MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_12H)
                     .setHour(12)
@@ -93,34 +106,43 @@ class AlaretDailog(var cont: Context): DialogFragment() {
                     .build()
                 timePicker.show(requireActivity().supportFragmentManager,"")
                 timePicker.addOnPositiveButtonClickListener {
-                    val hour = timePicker.hour
-                    val minute = timePicker.minute
+                     hour = timePicker.hour
+                     minute = timePicker.minute
                     from.text = "$hour :$minute\n${MainActivity.getDayOfWeek(days)}"
 
-                    viewModel.getAllAlarm()
-                    val getAlarmJob = lifecycleScope.launch(Dispatchers.IO) {
-
-                            viewModel.alarms.collect {
-                                if(alarmItem==null){
-                                alarmItem = AlarmItem(
-                                    it.size + 1,
-                                    days,
-                                    hour,
-                                    minute,
-                                    massage,
-                                    arguments?.getString("name")!!
-                                )
-                                alarmItem?.let { it1 -> scheduler.schedule(it1) }
-                                viewModel.insertToAlarm(alarmItem!!)
-                            }}
-
-
-                        }
 
 
                 }
             }
 
+        }
+        save.setOnClickListener {
+
+            viewModel.getAllAlarm()
+            val getAlarmJob = lifecycleScope.launch(Dispatchers.IO) {
+
+                viewModel.alarms.collect {
+                    Log.d("llldehk", it.toString())
+
+                        withContext(Dispatchers.Main){
+                            if(alarmItem==null){
+                                alarmItem = AlarmItem(
+                               0,
+                                    days,
+                                    hour,
+                                    minute,
+                                    massage,
+                                    arguments?.getString("name")!!,
+                                    withAlert.isChecked
+                                )
+                        alarmItem?.let { it1 -> scheduler.schedule(it1) }
+                        viewModel.insertToAlarm(alarmItem!!)}
+
+                    }}
+
+
+            }
+            dismiss()
         }
 
 

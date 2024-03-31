@@ -28,7 +28,13 @@
     <string name="from">from</string>
     <string name="to">to</string>
     <string name="with_alarm">with alarm</string>
-    <string name="without_alarm">without alarm\n</string>
+    <string name="without_alarm">without alarm</string>
     <string name="save">save</string>
+    <string name="edit_time">choose time ✎</string>
+    <string name="Alarms">Alarms</string>
+    <string name="Favorate">favorate</string>
+    <string name="Home">Home</string>
+    <string name="Search">Search</string>
+    <string name="settings">settings</string>
 
 </resources>

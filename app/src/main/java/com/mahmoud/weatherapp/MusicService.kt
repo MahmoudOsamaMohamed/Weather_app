@@ -93,7 +93,7 @@ class MusicService : Service() {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 "Music Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)

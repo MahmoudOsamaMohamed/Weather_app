@@ -17,15 +17,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="fav.json"
+        app:lottie_fileName="alert_anim.json"
         app:lottie_loop="true"
         android:id="@+id/descover_anim"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/add_love"
+        android:src="@drawable/add_allarm"
         android:id="@+id/add_love"
         android:backgroundTint="@color/white"
         android:layout_gravity="end|bottom"
-android:layout_margin="40dp" />
+        android:layout_margin="40dp" />
 </FrameLayout>

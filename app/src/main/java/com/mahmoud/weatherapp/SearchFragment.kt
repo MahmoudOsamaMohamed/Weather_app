@@ -59,6 +59,8 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                binding.resultRv.visibility = View.VISIBLE
+                binding.descoverAnim.visibility = View.GONE
                 newText?.let {
                     Log.d("texttttto",it)
                     viewModel.searchCity(it,"10")
@@ -98,7 +100,7 @@ class SearchFragment : Fragment() {
         }
     }
     val goToResult: (Features) -> Unit = {
-        if(SearchFragmentArgs.fromBundle(requireArguments()).from=="home"){
+        if(!SearchFragmentArgs.fromBundle(requireArguments()).from.isNullOrEmpty()&&SearchFragmentArgs.fromBundle(requireArguments()).from=="home"){
             viewModel.updateSettingsPreferences(lat=it.geometry.coordinates[1].toString(),lon=it.geometry.coordinates[0].toString())
         }
         NavHostFragment.findNavController(this).navigate(SearchFragmentDirections.actionSearchFragmentToHomeFragment(lon = it.geometry.coordinates[0].toString(), lat = it.geometry.coordinates[1].toString()))

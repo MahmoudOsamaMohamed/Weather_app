@@ -92,13 +92,13 @@ class SittingFragment : Fragment() {
                         Location.ON.name -> {
                             binding.gps.setBackgroundColor(resources.getColor(R.color.sunny))
                             binding.map.setBackgroundColor(resources.getColor(R.color.white))
-                            viewModel.updateSettingsPreferences(lat = "",lon="")
+
                         }
 
                         Location.OFF.name -> {
                             binding.gps.setBackgroundColor(resources.getColor(R.color.white))
                             binding.map.setBackgroundColor(resources.getColor(R.color.sunny))
-                            viewModel.updateSettingsPreferences(lat = "",lon="")
+
                         }
 
                     }}}
@@ -164,6 +164,8 @@ class SittingFragment : Fragment() {
             binding.gps.setBackgroundColor( resources.getColor(R.color.white))
             binding.map.setBackgroundColor( resources.getColor(R.color.sunny))
             viewModel.updateSettingsPreferences(location = Location.OFF)
+            viewModel.updateSettingsPreferences(lat = "",lon="")
+            viewModel.updateSettingsPreferences(lat = "",lon="")
         }
     }
 

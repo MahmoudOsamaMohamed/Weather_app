@@ -542,7 +542,7 @@ android:id="@+id/card_view"
                 android:id="@+id/card_view7"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="5dp"
-                android:layout_height="800dp">
+                android:layout_height="900dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/day_rv"
                     android:layout_width="match_parent"

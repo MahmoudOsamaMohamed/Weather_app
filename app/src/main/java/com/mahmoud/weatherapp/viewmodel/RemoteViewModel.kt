@@ -205,9 +205,6 @@ class RemoteViewModel(private val repo: IReposatory):ViewModel(){
     fun getAllAlarm(){
         viewModelScope.launch {
             repo.getAlarm().
-                    catch {
-                        _alarms.value=emptyList()
-                    }.
                     collect {
                         _alarms.value=it
                     }

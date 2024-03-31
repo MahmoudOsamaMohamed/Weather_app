@@ -10,7 +10,7 @@ import com.mahmoud.weatherapp.alaram.AlarmItemDao
 import com.mahmoud.weatherapp.model.Pojos.RoomConverter
 import com.plcoding.alarmmanagerguide.AlarmItem
 
-@Database(entities = [CashWeather::class, Favourate::class, AlarmItem::class], version = 6)
+@Database(entities = [CashWeather::class, Favourate::class, AlarmItem::class], version = 7)
 @TypeConverters(RoomConverter::class)
 abstract class RoomDB:RoomDatabase() {
 

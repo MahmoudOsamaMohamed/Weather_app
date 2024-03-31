@@ -22,14 +22,17 @@ class AndroidAlarmScheduler(
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             putExtra("EXTRA_MESSAGE", item.message)
             putExtra("EXTRA_CITY", item.city)
+            putExtra("EXTRA_IS_SERVICE", item.isService)
         }
+        Log.d("lllo",Thread.currentThread().name)
+        Log.d("lllo",item.day.toString()+" "+item.hour+" "+item.minute)
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calculateTimeDifference(item.day.toInt(), item.hour, item.minute),
             PendingIntent.getBroadcast(context,
-                item.id,
+                5,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         )
     }
 

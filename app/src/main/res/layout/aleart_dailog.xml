@@ -1,89 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:padding="20dp"
-    android:layout_height="300dp"
+
+    android:layout_height="match_parent"
+    android:backgroundTint="#527C9E"
     tools:ignore="MissingDefaultResource">
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:weightSum="2"
-        >
+        android:padding="20dp"
+        android:background="#527C9E"
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:weightSum="3"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/from"
-                android:textSize="20sp"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:weightSum="1"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:id="@+id/from"/>
+                android:weightSum="3"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/from"
+                    android:textColor="@color/white"
+
+                    android:textSize="20sp"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:text="@string/edit_time"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:id="@+id/from"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:weightSum="3"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/to"
-                android:textSize="20sp"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:id="@+id/to"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:id="@+id/radioGroup"
-        >
-        <RadioButton
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+
             android:layout_gravity="center"
-            android:text="@string/with_alarm"
-            android:id="@+id/with_alarm"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_weight="1"
-            android:text="@string/without_alarm"
-            android:id="@+id/without_alarm"/>
-    </RadioGroup>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:layout_margin="20dp"
-        android:id="@+id/save"/>
-</LinearLayout>
+            android:id="@+id/radioGroup"
+            >
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:text="@string/with_alarm"
+
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:id="@+id/with_alarm"/>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+
+                android:layout_gravity="center"
+                android:text="@string/without_alarm"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:id="@+id/without_alarm"/>
+        </RadioGroup>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/black"
+            android:id="@+id/save"/>
+    </LinearLayout>
+</FrameLayout>

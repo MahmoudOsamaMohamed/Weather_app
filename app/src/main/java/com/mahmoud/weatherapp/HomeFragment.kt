@@ -89,6 +89,7 @@ class HomeFragment : Fragment() {
 val dailog = AlaretDailog(requireContext())
             val args = Bundle()
             for (i in forecastResponse.daily.indices) {
+                Log.d("llll ","list$i")
                 args.putSerializable("list$i", forecastResponse.daily[i])
             }
             args.putString("name",cityName?.name)
@@ -261,38 +262,65 @@ val dailog = AlaretDailog(requireContext())
                                 binding.weatherDescription.text =
                                     forecastResponse.current.weather[0].description
                                 if (tempUnit == TempUnit.C.name)
-                                {
+                                {if(language==Language.EN.name)
                                 binding.feelLike.text =
                                     "feels like: " + forecastResponse.current.feels_like.toInt() + " °C"
+                                    else
+                                    binding.feelLike.text =
+                                         forecastResponse.current.feels_like.toInt().toString() + " °C"+"الشعور: "
+                                    if(language==Language.EN.name)
                                 binding.minMax.text =
-                                    "min: " + forecastResponse.daily[0].temp.max.toInt() + " °C" + " max: " + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C"}
+                                    "max: " + forecastResponse.daily[0].temp.max.toInt() + " °C" + " min: " + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C"
+                                else
+                                    binding.minMax.text=
+                                        forecastResponse.daily[0].temp.max.toInt().toString() + " °C" + "الأقصى :" + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C" +"الأدنى : "
+                                }
                                 else if (tempUnit == TempUnit.F.name){
                                     binding.feelLike.text =
-                                        "feels like: " + celsiusToFahrenheit(forecastResponse.current.feels_like).toInt() + " °F"
+                                         celsiusToFahrenheit(forecastResponse.current.feels_like).toInt().toString() + " °F"+"الشعور: "
                                     binding.minMax.text =
-                                        "min: " + celsiusToFahrenheit(forecastResponse.daily[0].temp.min) + " °F" + " max: " + celsiusToFahrenheit(forecastResponse.daily[0].temp.max) + " °F"
+                                        celsiusToFahrenheit(forecastResponse.daily[0].temp.min) .toString()+ " °F" +   "الأقصى :"+celsiusToFahrenheit(forecastResponse.daily[0].temp.max) + " °F" +"الأدنى : "
                                 }else{
                                     binding.feelLike.text =
-                                        "feels like: " + celsiusToKelvin(forecastResponse.current.feels_like).toInt() + " K"
+                                        celsiusToKelvin(forecastResponse.current.feels_like).toInt().toString() + " K"+"الشعور: "
                                     binding.minMax.text =
-                                        "min: " + celsiusToKelvin(forecastResponse.daily[0].temp.min) + " K" + " max: " + celsiusToKelvin(forecastResponse.daily[0].temp.max) + " K"
+                                       celsiusToKelvin(forecastResponse.daily[0].temp.min).toString() + " K"  +   "الأقصى :"+  celsiusToKelvin(forecastResponse.daily[0].temp.max) + " K"+"الأدنى : "
                                 }
+                                if(language==Language.EN.name)
+
                                 binding.day.text =
                                     MainActivity.getDayOfWeek(forecastResponse.current.dt.toLong())
+                                else
+                                    binding.day.text =
+                                        MainActivity.arabicDays[MainActivity.getDayOfWeek(forecastResponse.current.dt.toLong())]
                                 binding.time.text =
                                     MainActivity.formatTime(forecastResponse.current.dt)
                                 binding.humidity.text =
                                     forecastResponse.current.humidity.toString() + "%"
                                 binding.clouds.text =
                                     forecastResponse.current.clouds.toString() + "%"
-                                if(speedUnit == SpeedUnit.KMPH.name)
-                                binding.winds.text =
-                                    forecastResponse.current.wind_speed.toInt().toString() + " m/s"
-                                else
-                                binding.winds.text =
+                                if(speedUnit == SpeedUnit.KMPH.name) {
+                                    if(language==Language.EN.name)
+                                    binding.winds.text =
+                                        forecastResponse.current.wind_speed.toInt()
+                                            .toString() + " m/s"
+                                    else
+                                        forecastResponse.current.wind_speed.toInt()
+                                            .toString() + "م/ث"
+                                }                                else{
+                                if(language==Language.EN.name)
+                                    binding.winds.text =
                                     metersPerSecondToMilesPerHour(forecastResponse.current.wind_speed).toInt().toString() + " m/h"
+                                else
+                                    binding.winds.text =
+                                        metersPerSecondToMilesPerHour(forecastResponse.current.wind_speed).toInt().toString() + "م/س"
+                                }
+                                if(language==Language.EN.name)
                                 binding.pressure.text =
                                     forecastResponse.current.pressure.toString() + " hPa"
+                                else
+                                    binding.pressure.text =
+                                        forecastResponse.current.pressure.toString() + "هب"
                                 binding.progressBar.isEnabled = false
                                 binding.sunrise.text =
                                     MainActivity.formatTime(forecastResponse.current.sunrise)
@@ -303,8 +331,12 @@ val dailog = AlaretDailog(requireContext())
                                     forecastResponse.current.sunset,
                                     forecastResponse.current.dt
                                 )
+                                if(language==Language.EN.name)
                                 binding.vision.text =
                                     ((forecastResponse.current.visibility) / 1000).toString() + " km"
+                                else
+                                    binding.vision.text =
+                                        ((forecastResponse.current.visibility) / 1000).toString() + "كم"
                                 binding.uv.text = (forecastResponse.current.uvi).toString()
 
                                 binding.rain.text =
@@ -322,7 +354,7 @@ val dailog = AlaretDailog(requireContext())
                                     LinearLayoutManager.VERTICAL,
                                     false
                                 )
-                                val adapter2 = DayAdapter(tempUnit)
+                                val adapter2 = DayAdapter(tempUnit,language)
                                 binding.dayRv.adapter = adapter2
                                 binding.dayRv.setHasFixedSize(true)
                                 adapter2.submitList(forecastResponse.daily)
@@ -358,82 +390,88 @@ val dailog = AlaretDailog(requireContext())
                                                 )
                                                 for (card in cardsList)
                                                     card.setCardBackgroundColor(Color.argb(128, 0, 0, 0))
-
-                                                binding.cityName.text =
-                                                    if (language == Language.EN.name) it[0].cityName else it[0].cityNameAr
-                                                if (forecastResponse.current.dt < forecastResponse.daily[0].sunset) {
-                                                    binding.weatherIcon.setImageResource(
-                                                        morningIconMap[forecastResponse.current.weather[0].main]!!
-                                                    )
+                                                if(forecastResponse.current.dt<forecastResponse.current.sunset&&forecastResponse.current.dt>forecastResponse.current.sunrise) {
+                                                    binding.weatherIcon.setImageResource(morningIconMap[forecastResponse.current.weather[0].main]!!)
                                                     binding.fragmentHome.background =
                                                         resources.getDrawable(morningBackgroundMap[forecastResponse.current.weather[0].main]!!)
-                                                } else {
-                                                    binding.weatherIcon.setImageResource(
-                                                        nightIconMap[forecastResponse.current.weather[0].main]!!
-                                                    )
+                                                }
+                                                else{
+                                                    binding.weatherIcon.setImageResource(nightIconMap[forecastResponse.current.weather[0].main]!!)
                                                     binding.fragmentHome.background =
                                                         resources.getDrawable(nightBackgroundMap[forecastResponse.current.weather[0].main]!!)
                                                 }
-                                                if (tempUnit == TempUnit.C.name)
+                                                if(tempUnit == TempUnit.C.name)
                                                     binding.weatherTemp.text =
-                                                        forecastResponse.current.temp.toInt()
-                                                            .toString() + " °C"
-                                                else if (tempUnit == TempUnit.F.name)
+                                                        forecastResponse.current.temp.toInt().toString() + " °C"
+                                                else if(tempUnit == TempUnit.F.name)
                                                     binding.weatherTemp.text =
-                                                        celsiusToFahrenheit(forecastResponse.current.temp).toInt()
-                                                            .toString() + " °F"
+                                                        celsiusToFahrenheit(forecastResponse.current.temp).toInt().toString() + " °F"
                                                 else
                                                     binding.weatherTemp.text =
-                                                        celsiusToKelvin(forecastResponse.current.temp).toInt()
-                                                            .toString() + " K"
+                                                        celsiusToKelvin(forecastResponse.current.temp).toInt().toString() + " K"
 
                                                 binding.weatherDescription.text =
                                                     forecastResponse.current.weather[0].description
-                                                if (tempUnit == TempUnit.C.name) {
+                                                if (tempUnit == TempUnit.C.name)
+                                                {if(language==Language.EN.name)
                                                     binding.feelLike.text =
                                                         "feels like: " + forecastResponse.current.feels_like.toInt() + " °C"
-                                                    binding.minMax.text =
-                                                        "min: " + forecastResponse.daily[0].temp.max.toInt() + " °C" + " max: " + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C"
-                                                } else if (tempUnit == TempUnit.F.name) {
+                                                else
                                                     binding.feelLike.text =
-                                                        "feels like: " + celsiusToFahrenheit(
-                                                            forecastResponse.current.feels_like
-                                                        ).toInt() + " °F"
-                                                    binding.minMax.text =
-                                                        "min: " + celsiusToFahrenheit(
-                                                            forecastResponse.daily[0].temp.min
-                                                        ) + " °F" + " max: " + celsiusToFahrenheit(
-                                                            forecastResponse.daily[0].temp.max
-                                                        ) + " °F"
-                                                } else {
-                                                    binding.feelLike.text =
-                                                        "feels like: " + celsiusToKelvin(
-                                                            forecastResponse.current.feels_like
-                                                        ).toInt() + " K"
-                                                    binding.minMax.text =
-                                                        "min: " + celsiusToKelvin(forecastResponse.daily[0].temp.min) + " K" + " max: " + celsiusToKelvin(
-                                                            forecastResponse.daily[0].temp.max
-                                                        ) + " K"
+                                                        forecastResponse.current.feels_like.toInt().toString() + " °C"+"الشعور: "
+                                                    if(language==Language.EN.name)
+                                                        binding.minMax.text =
+                                                            "max: " + forecastResponse.daily[0].temp.max.toInt() + " °C" + " min: " + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C"
+                                                    else
+                                                        binding.minMax.text=
+                                                            forecastResponse.daily[0].temp.max.toInt().toString() + " °C" + "الأقصى :" + forecastResponse.daily[0]?.temp?.min?.toInt() + " °C" +"الأدنى : "
                                                 }
-                                                binding.day.text =
-                                                    MainActivity.getDayOfWeek(forecastResponse.current.dt.toLong())
+                                                else if (tempUnit == TempUnit.F.name){
+                                                    binding.feelLike.text =
+                                                        celsiusToFahrenheit(forecastResponse.current.feels_like).toInt().toString() + " °F"+"الشعور: "
+                                                    binding.minMax.text =
+                                                        celsiusToFahrenheit(forecastResponse.daily[0].temp.min) .toString()+ " °F" +   "الأقصى :"+celsiusToFahrenheit(forecastResponse.daily[0].temp.max) + " °F" +"الأدنى : "
+                                                }else{
+                                                    binding.feelLike.text =
+                                                        celsiusToKelvin(forecastResponse.current.feels_like).toInt().toString() + " K"+"الشعور: "
+                                                    binding.minMax.text =
+                                                        celsiusToKelvin(forecastResponse.daily[0].temp.min).toString() + " K"  +   "الأقصى :"+  celsiusToKelvin(forecastResponse.daily[0].temp.max) + " K"+"الأدنى : "
+                                                }
+                                                if(language==Language.EN.name)
+
+                                                    binding.day.text =
+                                                        MainActivity.getDayOfWeek(forecastResponse.current.dt.toLong())
+                                                else
+                                                    binding.day.text =
+                                                        MainActivity.arabicDays[MainActivity.getDayOfWeek(forecastResponse.current.dt.toLong())]
                                                 binding.time.text =
                                                     MainActivity.formatTime(forecastResponse.current.dt)
                                                 binding.humidity.text =
                                                     forecastResponse.current.humidity.toString() + "%"
                                                 binding.clouds.text =
                                                     forecastResponse.current.clouds.toString() + "%"
-                                                if (speedUnit == SpeedUnit.KMPH.name)
-                                                    binding.winds.text =
+                                                if(speedUnit == SpeedUnit.KMPH.name) {
+                                                    if(language==Language.EN.name)
+                                                        binding.winds.text =
+                                                            forecastResponse.current.wind_speed.toInt()
+                                                                .toString() + " m/s"
+                                                    else
                                                         forecastResponse.current.wind_speed.toInt()
-                                                            .toString() + " m/s"
+                                                            .toString() + "م/ث"
+                                                }                                else{
+                                                    if(language==Language.EN.name)
+                                                        binding.winds.text =
+                                                            metersPerSecondToMilesPerHour(forecastResponse.current.wind_speed).toInt().toString() + " m/h"
+                                                    else
+                                                        binding.winds.text =
+                                                            metersPerSecondToMilesPerHour(forecastResponse.current.wind_speed).toInt().toString() + "م/س"
+                                                }
+                                                if(language==Language.EN.name)
+                                                    binding.pressure.text =
+                                                        forecastResponse.current.pressure.toString() + " hPa"
                                                 else
-                                                    binding.winds.text =
-                                                        metersPerSecondToMilesPerHour(
-                                                            forecastResponse.current.wind_speed
-                                                        ).toInt().toString() + " m/h"
-                                                binding.pressure.text =
-                                                    forecastResponse.current.pressure.toString() + " hPa"
+                                                    binding.pressure.text =
+                                                        forecastResponse.current.pressure.toString() + "هب"
                                                 binding.progressBar.isEnabled = false
                                                 binding.sunrise.text =
                                                     MainActivity.formatTime(forecastResponse.current.sunrise)
@@ -444,10 +482,13 @@ val dailog = AlaretDailog(requireContext())
                                                     forecastResponse.current.sunset,
                                                     forecastResponse.current.dt
                                                 )
-                                                binding.vision.text =
-                                                    ((forecastResponse.current.visibility) / 1000).toString() + " km"
-                                                binding.uv.text =
-                                                    (forecastResponse.current.uvi).toString()
+                                                if(language==Language.EN.name)
+                                                    binding.vision.text =
+                                                        ((forecastResponse.current.visibility) / 1000).toString() + " km"
+                                                else
+                                                    binding.vision.text =
+                                                        ((forecastResponse.current.visibility) / 1000).toString() + "كم"
+                                                binding.uv.text = (forecastResponse.current.uvi).toString()
 
                                                 binding.rain.text =
                                                     (forecastResponse.hourly[0].pop * 100).toString() + "%"
@@ -464,7 +505,7 @@ val dailog = AlaretDailog(requireContext())
                                                     LinearLayoutManager.VERTICAL,
                                                     false
                                                 )
-                                                val adapter2 = DayAdapter(tempUnit)
+                                                val adapter2 = DayAdapter(tempUnit,language)
                                                 binding.dayRv.adapter = adapter2
                                                 binding.dayRv.setHasFixedSize(true)
                                                 adapter2.submitList(forecastResponse.daily)

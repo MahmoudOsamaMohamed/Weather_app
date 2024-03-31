@@ -2,30 +2,39 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
+    xmlns:tool="http://schemas.android.com/tools"
+    app:cardCornerRadius="40dp"
     android:id="@+id/city_item"
-    android:backgroundTint="@android:color/transparent"
+   android:backgroundTint="#385368"
     android:layout_margin="20dp"
-    android:layout_height="100dp">
+    android:layout_height="wrap_content">
+
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="100dp"
     android:orientation="horizontal"
-    android:padding="20dp"
-    android:weightSum="3">
+
+
+    android:weightSum="5">
     <TextView
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="4"
         android:layout_height="match_parent"
         android:gravity="start|center_vertical"
-        android:textSize="30sp"
+        android:textSize="24sp"
+        android:paddingStart="40dp"
+        android:textStyle="bold|italic"
         android:id="@+id/city_name"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        tool:text="cairo"
 
         />
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_gravity="center"
         android:src="@drawable/delete_ic"
         android:id="@+id/delete"
 

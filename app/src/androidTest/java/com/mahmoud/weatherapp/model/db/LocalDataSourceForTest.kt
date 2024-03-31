@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 
-val Context.dataStore by preferencesDataStore(name = "settings")
 class LocalDataSourceForTest(val favourateDao: FavourateDao,
                              val alarmItemDao: AlarmItemDao,
                              val cashWeatherDao: CashWeatherDao,

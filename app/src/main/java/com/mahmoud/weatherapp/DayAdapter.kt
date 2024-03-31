@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.weatherapp.databinding.DayItemBinding
+import com.mahmoud.weatherapp.model.Language
 import com.mahmoud.weatherapp.model.Pojos.Daily
 import com.mahmoud.weatherapp.model.TempUnit
 
@@ -19,7 +20,7 @@ class DayDiffUtil:DiffUtil.ItemCallback<Daily>(){
     }
 
 }
-class DayAdapter(val tempUnit:String): ListAdapter<Daily, DayAdapter.DayViewHolder>(DayDiffUtil()){
+class DayAdapter(val tempUnit:String,val lang:String): ListAdapter<Daily, DayAdapter.DayViewHolder>(DayDiffUtil()){
     class DayViewHolder(val binding: DayItemBinding): RecyclerView.ViewHolder(binding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
         return DayViewHolder(
@@ -32,7 +33,11 @@ class DayAdapter(val tempUnit:String): ListAdapter<Daily, DayAdapter.DayViewHold
     }
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val item = getItem(position)
+
+        if(lang==Language.EN.name)
         holder.binding.day.text = MainActivity.getDayOfWeek(item.dt.toLong())
+        else
+        holder.binding.day.text = MainActivity.arabicDays[MainActivity.getDayOfWeek(item.dt.toLong())]
 
         when(tempUnit){
             TempUnit.C.name -> {

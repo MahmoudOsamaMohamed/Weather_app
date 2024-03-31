@@ -5,10 +5,11 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 @Entity(tableName = "alarm_table")
 data class AlarmItem(
-    @PrimaryKey  val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val day: Long,
     val hour : Int,
     val minute: Int,
     val message: String,
-    val city: String
+    val city: String,
+    val isService: Boolean
 )

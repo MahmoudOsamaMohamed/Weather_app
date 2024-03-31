@@ -67,6 +67,15 @@ class MainActivity : AppCompatActivity() {
             "Tornado" to R.drawable.tornado_bg,
             "Drizzle" to R.drawable.drizzle_bg
         )
+        val arabicDays=mapOf(
+            "Monday" to "الاثنين",
+            "Tuesday" to "الثلاثاء",
+            "Wednesday" to "الاربعاء",
+            "Thursday" to "الخميس",
+            "Friday" to "الجمعة",
+            "Saturday" to "السبت",
+            "Sunday" to "الاحد"
+        )
         val nightBackgroundMap = mapOf(
             "Thunderstorm" to R.drawable.thunder_storm_bg_nt,
             "Rain" to R.drawable.rain_bg_nt,
@@ -186,6 +195,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.sittingFragment -> {
                     navController.navigate(R.id.sittingFragment)
+                    true
+                }
+                R.id.alaramsFragment -> {
+                    navController.navigate(R.id.alaramsFragment)
                     true
                 }
                 else -> false

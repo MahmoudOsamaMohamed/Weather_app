@@ -1,5 +1,6 @@
 package com.mahmoud.weatherapp.model.db
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -22,7 +23,7 @@ class LocalDataSourceTest{
     lateinit var localDataSource:ILocalDataSource
     lateinit var database:RoomDB
     @get:Rule
-    val mainCroutineRule = MainCoroutineRule()
+    val mainCroutineRule = InstantTaskExecutorRule()
     @Before
     fun setUp() {
         database = Room.inMemoryDatabaseBuilder(
@@ -44,8 +45,9 @@ class LocalDataSourceTest{
         val favourate = Favourate("cairo","20","30","القاهرة")
         //act
         localDataSource.insertToFavourate(favourate)
+            val result = localDataSource.getAllFavourate().first()
         //assert
-        val result = localDataSource.getAllFavourate().first()
+
         assertThat(result.last(), `is`(favourate))
     }
     @Test
@@ -55,29 +57,34 @@ class LocalDataSourceTest{
         localDataSource.insertToFavourate(favourate)
         //act
         localDataSource.deleteFromFavourate(favourate)
-        //assert
+
         val result = localDataSource.getAllFavourate().first()
+        //assert
+
         assertThat(result.size, `is`(0))
     }
     @Test
     fun insertToAlarmItem_retreiveAlarmItem()= runBlocking {
         //arrange
-        val alarmItem = AlarmItem(1,0,0,0,"masseage","cairo")
+        val alarmItem = AlarmItem(1,0,0,0,"masseage","cairo",true)
         //act
         localDataSource.insertToAlarm(alarmItem)
+                val result = localDataSource.getAllAlarm().first()
         //assert
-        val result = localDataSource.getAllAlarm().first()
+
         assertThat(result.last(), `is`(alarmItem))
     }
     @Test
     fun deleteFromAlarmItem_retreiveAlarmItem()= runBlocking {
         //arrange
-        val alarmItem =  AlarmItem(1,0,0,0,"masseage","cairo")
+        val alarmItem =  AlarmItem(1,0,0,0,"masseage","cairo",true)
         localDataSource.insertToAlarm(alarmItem)
         //act
         localDataSource.deleteFromAlarm(1)
-        //assert
+
         val result = localDataSource.getAllAlarm().first()
+        //assert
+
         assertThat(result.size, `is`(0))
     }
     @Test
@@ -92,8 +99,9 @@ class LocalDataSourceTest{
 
         //act
         localDataSource.getAllFavourate()
-        //assert
+
         val result = localDataSource.getAllFavourate().first()
+        //assert
         assertThat(result.size, `is`(3))
     }
 }

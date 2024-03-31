@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    app:cardCornerRadius="40dp"
+    android:id="@+id/city_item"
+    android:backgroundTint="#385368"
+    android:layout_margin="20dp"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="5"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+
+
+        android:weightSum="5">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="0dp"
+            android:gravity="start|center_vertical"
+            android:textSize="24sp"
+            android:paddingStart="40dp"
+            android:paddingEnd="45dp"
+            android:textStyle="bold|italic"
+            android:id="@+id/city_name"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            tool:text="cairo"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="start|top"
+            android:textSize="12sp"
+            android:paddingStart="45dp"
+            android:paddingEnd="45dp"
+
+            android:textStyle="italic"
+            android:id="@+id/country"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            tool:text="egypt"/>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:src="@drawable/delete_ic"
+        android:id="@+id/delete"
+
+
+        />
+</LinearLayout>
+</androidx.cardview.widget.CardView>

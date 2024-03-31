@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AlarmItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
    suspend fun insert(item: AlarmItem)
    @Query("SELECT * FROM alarm_table")
    fun getAllItems(): Flow<List<AlarmItem>>

@@ -1,6 +1,5 @@
 package com.mahmoud.weatherapp
 
-import android.graphics.drawable.GradientDrawable.Orientation
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,20 +11,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mahmoud.weatherapp.databinding.FragmentFavorateBinding
-import com.mahmoud.weatherapp.model.db.Favourate
+import com.mahmoud.weatherapp.databinding.FragmentAlaramsBinding
 import com.mahmoud.weatherapp.model.db.LocalDataSource
 import com.mahmoud.weatherapp.remote.RemoteDataSource
 import com.mahmoud.weatherapp.viewmodel.RemoteViewModel
 import com.mahmoud.weatherapp.viewmodel.RemoteViewModelFactory
+import com.plcoding.alarmmanagerguide.AlarmItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FavorateFragment : Fragment() {
-    lateinit var binding: FragmentFavorateBinding
+class AlaramsFragment : Fragment() {
     lateinit var viewModel: RemoteViewModel
-
+    lateinit var binding: FragmentAlaramsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,41 +35,35 @@ class FavorateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentFavorateBinding.inflate(inflater, container, false)
-        return binding.root    }
+        binding = FragmentAlaramsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val factory = RemoteViewModelFactory(Reposatory(LocalDataSource(requireContext()), RemoteDataSource(), ))
-        val favAdapter = FavAdapter(delete,goToFavorite)
-        binding.addLove.setOnClickListener {
-            NavHostFragment.findNavController(this).navigate(FavorateFragmentDirections.actionFavorateFragmentToSearchFragment("favorate"))
-
-        }
-
         viewModel = ViewModelProvider(this, factory).get(RemoteViewModel::class.java)
-         viewModel.getAllFavourates()
+        viewModel.getAllAlarm()
+        binding.addLove.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(AlaramsFragmentDirections.actionAlaramsFragmentToSearchFragment("alarm"))
+        }
+        val AlertsAdapter = AlertsAdapter(delete)
+        binding.favRv.adapter = AlertsAdapter
+        binding.favRv.layoutManager = LinearLayoutManager(requireContext())
         val getFavoritesJob = lifecycleScope.launch(Dispatchers.IO) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favourate.collect {
+                viewModel.alarms.collect {
+                    withContext(Dispatchers.Main) {
+                        if (it.isNotEmpty()) {
+                            binding.favRv.visibility = View.VISIBLE
+                            binding.descoverAnim.visibility = View.GONE
+                            AlertsAdapter.submitList(it)
 
-withContext(Dispatchers.Main) {
-    if(it.isNotEmpty()){
-        binding.favRv.visibility = View.VISIBLE
-        binding.descoverAnim.visibility = View.GONE
-    }
-                    binding.favRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                    binding.favRv.adapter = favAdapter
-                    favAdapter.submitList(it)
-                }}
-            }
-        }
-    }
-val delete : (Favourate) -> Unit = {
-    viewModel.deleteFromFavorites(it)
-}
-    val goToFavorite:(Favourate) -> Unit = {
-        NavHostFragment.findNavController(this).navigate(FavorateFragmentDirections.actionFavorateFragmentToHomeFragment(lat = it.lat,lon = it.lon))
+                    }
+                }
     }
 
-}
+}}}
+val delete: (AlarmItem) -> Unit = {
+    viewModel.deleteFromAlarm(it.id)
+}}

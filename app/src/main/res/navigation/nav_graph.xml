@@ -35,6 +35,8 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="from"
+            android:defaultValue="true"
+
             app:argType="string" />
     </fragment>
     <fragment
@@ -58,7 +60,11 @@
         android:label="fragment_sitting"
         tools:layout="@layout/fragment_sitting" />
     <fragment
-        android:id="@+id/myDialogFragment"
-        android:name="com.mahmoud.weatherapp.MyDialogFragment"
-        android:label="MyDialogFragment" />
+        android:id="@+id/alaramsFragment"
+        android:name="com.mahmoud.weatherapp.AlaramsFragment"
+        android:label="AlaramsFragment" >
+        <action
+            android:id="@+id/action_alaramsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 </navigation>

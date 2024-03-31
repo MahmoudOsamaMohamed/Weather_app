@@ -17,14 +17,19 @@ class AlarmReceiver: BroadcastReceiver() {
         val message = intent?.getStringExtra("EXTRA_MESSAGE") ?: return
 
         val title = intent?.getStringExtra("EXTRA_CITY") ?: return
+        val isService = intent?.getBooleanExtra("EXTRA_IS_SERVICE", false) ?: return
         Log.d("lllllllllllllllll", "onReceive: $title")
 
        // showNotification(context!!.applicationContext, title, message)
+        if(isService){
         val serviceIntent = Intent(context, MusicService::class.java)
         serviceIntent.putExtra("EXTRA_MESSAGE", message)
         serviceIntent.putExtra("EXTRA_CITY", title)
         context?.startService(serviceIntent)
     }
+    else{
+        showNotification(context!!, title, message)
+    }}
 
     fun showNotification(context: Context, title: String, message: String) {
         val notificationManager =
@@ -32,7 +37,7 @@ class AlarmReceiver: BroadcastReceiver() {
 
         val channelId = "default_channel_id"
         val channelName = "Default Channel"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val importance = NotificationManager.IMPORTANCE_HIGH
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, channelName, importance)

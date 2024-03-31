@@ -2,13 +2,13 @@
     <string name="app_name">تطبيق الطقس</string>
     <string name="hello_blank_fragment">مرحباً بالشاشة الفارغة</string>
     <string name="humidity">الرطوبة</string>
-    <string name="clouds">السحب</string>
+    <string name="clouds">السحاب</string>
     <string name="vision">الرؤية</string>
     <string name="pressure">الضغط</string>
     <string name="rain">الأمطار</string>
     <string name="winds">الرياح</string>
-    <string name="sunset">غروب الشمس</string>
-    <string name="sunrise">شروق الشمس</string>
+    <string name="sunset">الغروب</string>
+    <string name="sunrise">الشروق</string>
     <string name="ultraviolet">الأشعة فوق البنفسجية</string>
     <string name="snow">الثلوج</string>
     <string name="temperature">درجة الحرارة</string>
@@ -19,14 +19,21 @@
     <string name="english">الإنجليزية</string>
     <string name="arabic">العربية</string>
     <string name="location">الموقع</string>
-    <string name="gps">نظام تحديد المواقع العالمي</string>
+    <string name="gps">جي بي اس</string>
     <string name="map">الخريطة</string>
     <string name="speed">السرعة</string>
-    <string name="mps">متر/ثانية</string>
-    <string name="mph">ميل/ساعة</string>
+    <string name="mps">متر/ث</string>
+    <string name="mph">ميل/س</string>
     <string name="from">من</string>
     <string name="to">to</string>
-    <string name="with_alarm">with alarm</string>
-    <string name="save">save</string>
+    <string name="with_alarm">اضافة تنبيه</string>
+    <string name="save">حفظ</string>
+    <string name="edit_time">اختر الوقت ✎</string>
+    <string name="Alarms">التنبيهات</string>
+    <string name="Favorate">المفضلة</string>
+    <string name="Home">الرئيسية</string>
+    <string name="Search">بحث</string>
+    <string name="settings">الاعدادات</string>
+    <string name="without_alarm">بدون تنبيه</string>
 
 </resources>
